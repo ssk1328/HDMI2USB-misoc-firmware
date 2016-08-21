@@ -14,6 +14,7 @@
 #include "hdmi_in1.h"
 #include "processor.h"
 #include "heartbeat.h"
+#include "mix.h"
 #include "pll.h"
 #include "ci.h"
 #include "encoder.h"
@@ -294,6 +295,12 @@ static void video_matrix_connect(int source, int sink)
 				processor_set_hdmi_out0_source(source);
 #else
 				printf("hdmi_out0 is missing.\r\n");
+#endif
+			else if(sink == VIDEO_OUT_HDMI_OUT0_BASE1)
+#ifdef CSR_HDMI_OUT0_BASE
+				processor_set_hdmi_out0_base1_source(source);
+#else
+				printf("hdmi_out1 is missing.\r\n");
 #endif
 			else if(sink == VIDEO_OUT_HDMI_OUT1)
 #ifdef CSR_HDMI_OUT1_BASE
@@ -599,6 +606,9 @@ void ci_service(void)
 			if((strcmp(token, "output0") == 0) || (strcmp(token, "0") == 0)) {
 				sink = VIDEO_OUT_HDMI_OUT0;
 			}
+			if((strcmp(token, "output0_base1") == 0) || (strcmp(token, "01") == 0)) {
+				sink = VIDEO_OUT_HDMI_OUT0_BASE1;
+			}
 			else if((strcmp(token, "output1") == 0) || (strcmp(token, "1") == 0)) {
 				sink = VIDEO_OUT_HDMI_OUT1;
 			}
@@ -631,6 +641,21 @@ void ci_service(void)
 			heartbeat_disable();
 		else
 			help_heartbeat();
+	}
+	else if((strcmp(token, "fade") == 0) || (strcmp(token, "f") == 0)) {
+		token = get_token(&str);
+		if((strcmp(token, "up") == 0) ) {
+			set_fade(UP);
+			printf("Fade is %d \n", UP );
+		}
+		else if((strcmp(token, "down") == 0) ) {
+			set_fade(DOWN);
+			printf("Fade is DOWN %d \n", DOWN );
+		}
+		else if((strcmp(token, "off") == 0) ) {
+			set_fade(OFF);
+			printf("Fade is OFF %d \n", OFF );
+		}
 	}
 	else if(strcmp(token, "hdp_toggle") == 0) {
 		token = get_token(&str);

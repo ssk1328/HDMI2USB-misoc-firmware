@@ -42,6 +42,7 @@ int main(void)
 	// Set HDMI Output 0 to be pattern
 #ifdef CSR_HDMI_OUT0_BASE
 	processor_set_hdmi_out0_source(VIDEO_IN_PATTERN);
+	processor_set_hdmi_out0_base1_source(VIDEO_IN_PATTERN);
 #endif
 	// Set HDMI Output 1 to be pattern
 #ifdef CSR_HDMI_OUT1_BASE
@@ -62,7 +63,6 @@ int main(void)
 #endif
 	ci_prompt();
 	while(1) {
-//		hdmi_out0_driver_hout_source_write(1);
 		processor_service();
 		ci_service();
 

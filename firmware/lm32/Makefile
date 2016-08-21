@@ -21,6 +21,7 @@ OBJECTS=isr.o \
         hdmi_out0.o \
         hdmi_out1.o \
         heartbeat.o \
+        mix.o \
         pattern.o \
         edid.o \
         pll.o \
